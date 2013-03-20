@@ -9,10 +9,8 @@ namespace MongoDBRnD
     [TestClass]
     public class MongoDBTests
     {
-        private MongoServer _mongoServer = null;
         private MongoClient _mongoClient = null;
         private MongoDatabase _database = null;
-        private bool _disposed = false;
         private string _connectionString = "mongodb://mongodbsvr.cloudapp.net:27017";
         private string _dbName = "test";
         private string _collectionName = "foo";
