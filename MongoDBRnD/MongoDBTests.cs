@@ -24,6 +24,8 @@ namespace MongoDBRnD
             _database = server.GetDatabase(_dbName);
         }
 
+        //TODO: Create test that inserts the two rows that are in the remote db by default
+
         [TestMethod]
         public void Get_All_Foo()
         {
