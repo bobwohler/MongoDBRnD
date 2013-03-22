@@ -112,7 +112,7 @@ namespace MongoDBRnD
             
             QueryDocument query = new QueryDocument("name", "Holly");
             Foo foo = fooCollection.FindOne(query);
-            Assert.AreEqual(foo.Id, Guid.Parse("5610F094-1ECA-4444-97C6-FEA231B8FC4F"));
+            Assert.AreEqual(foo.Id, _hollyFooId);
 
             #region Test cleanup
             fooCollection.RemoveAll();
