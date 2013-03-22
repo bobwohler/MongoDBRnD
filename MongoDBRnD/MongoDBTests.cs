@@ -2,6 +2,8 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Linq;
+using MongoDB.Driver.Linq;
 
 namespace MongoDBRnD
 {
@@ -120,5 +122,37 @@ namespace MongoDBRnD
 
         }
 
+        [TestMethod]
+        public void Get_Foo_ByName_with_Linq()
+        {
+            #region Test setup
+            MongoCollection<Foo> fooCollection = _database.GetCollection<Foo>(_collectionName);
+            fooCollection.RemoveAll();
+            BsonDocument fooDocBob = new BsonDocument {
+                { "_id", _bobFooId },
+                { "name", "Bob"}
+            };
+            BsonDocument fooDocHolly = new BsonDocument {
+                { "_id", _hollyFooId },
+                { "name", "Holly" }
+            };
+
+            fooCollection.Insert(fooDocBob);
+            fooCollection.Insert(fooDocHolly);
+            #endregion
+
+            var collection = _database.GetCollection<Foo>(_collectionName);
+            var query = collection.AsQueryable<Foo>()
+                .Where(foo => foo.Name == "Holly");
+
+            // The type of "query" is "MongoDB.Driver.Linq.MongoQueryable`1[MongoDBRnD.Foo]"
+            Guid id = query.First<Foo>().Id;
+            Assert.AreEqual(id, _hollyFooId);
+
+            #region Test cleanup
+            fooCollection.RemoveAll();
+            #endregion
+
+        }
     }
 }
